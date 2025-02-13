@@ -1,0 +1,47 @@
+{% for cv in cvs %}
+
+<h2>{{ cv.name }}</h2>
+
+<p>Email: {{ cv.email }}</p>
+
+{% if cv.profile_picture %}
+
+<img src="{{ cv.profile_picture.url }}" alt="Profile Picture" width="150">
+
+{% else %}
+
+<p>No profile picture uploaded.</p>
+
+{% endif %}
+
+
+
+<form method="post" action="{% url 'share_cv_email' cv.id %}">
+
+    {% csrf_token %}
+
+    <input type="email" name="email" placeholder="Recipient Email" required>
+
+    <button type="submit">Share via Email</button>
+
+</form>
+
+
+<!-- Facebook Share -->
+
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}">Share on Facebook</a>
+
+
+
+<!-- Twitter Share -->
+
+<a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text=Check out this CV!">Share on
+    Twitter</a>
+
+
+
+<!-- LinkedIn Share -->
+
+<a href="https://www.linkedin.com/shareArticle?url={{ request.build_absolute_uri }}&title=CV Share">Share on
+    LinkedIn</a>
+{% endfor %}
